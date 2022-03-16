@@ -1,4 +1,4 @@
-## Welcome to GitHub Pages
+## seven
 
 You can use the [editor on GitHub](https://github.com/DataPointBeing/IMGD2900-WEBSITE/edit/main/README.md) to maintain and preview the content for your website in Markdown files.
 
