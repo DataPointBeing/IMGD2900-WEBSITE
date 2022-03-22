@@ -2,5 +2,5 @@ Welcome!
 
 # ASSIGNMENT A05: Mod the Sample Toy
 
-check back later for game links!
+[John's Mod - Wackelzeug](/a05/jcarrotta/game.html)
 <br><br><br><br><br>
