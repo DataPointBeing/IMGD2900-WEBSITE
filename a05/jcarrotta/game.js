@@ -1,6 +1,17 @@
 /*
-game.js for Perlenspiel 3.3.x
-Last revision: 2022-03-15 (BM)
+John Carrotta
+Carrot Bowl Studios
+
+An ill-defined set of fiveish mods:
+1. Turned the black/white pixels into random-coloration, random-size, animated jelly creatures with Unicode eyes
+2. Changed the audio to be all drips, pops, and musical notes that play when jellies are hovered over
+3. Changed the background color to be a dark gray, and made the grid 8x8 so as to fit 30.612% more jelly
+4. Made the beads respond to the mouse cursor by vibrating on a sine wave (with decaying intensity).
+5. Gave the beads idle animations: blinking and ambient vibrations, sometimes accompanied by random audio.
+
+I had fun with this. I plan to polish it up more on my own time.
+Next development would be the capacity to drag jellies around, and/or combine them to make new notes.
+ */
 
 /* jshint browser : true, devel : true, esversion : 6, freeze : true */
 /* globals PS : true */
