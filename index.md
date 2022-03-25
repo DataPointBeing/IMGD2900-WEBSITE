@@ -5,4 +5,9 @@ Welcome!
 [John's Mod - Wackelzeug](/a05/jcarrotta/game.html)
 
 [Griffin's Mod](/a05/gbowers/game.html)
-<br><br><br><br><br>
+<br><br>
+
+# ASSIGNMENT A07: Prototype an Original Toy
+
+[Music Toy](/a07/music-toy/game.html)
+<br>
