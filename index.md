@@ -10,4 +10,4 @@ Welcome!
 # ASSIGNMENT A07: Prototype an Original Toy
 
 [Music Toy](/a07/music-toy/game.html)
-<br>
+<br><br><br>
