@@ -10,4 +10,9 @@ Welcome!
 # ASSIGNMENT A07: Prototype an Original Toy
 
 [Music Toy](/a07/music-toy/game.html)
+<br><br>
+
+# ASSIGNMENT A08: Polish and Post Your Toy
+
+[Music Toy](/a08/music-toy/game.html)
 <br><br><br>
