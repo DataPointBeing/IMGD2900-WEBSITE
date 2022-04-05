@@ -20,4 +20,5 @@ Welcome!
 # ASSIGNMENT A12: Prototype Your Puzzle
 
 [OmniSlide - Prototype](/a12/omnislide/game.html)
+[Survey](https://forms.gle/PvyKgYHsKyCsxGBA8)
 <br><br><br>
