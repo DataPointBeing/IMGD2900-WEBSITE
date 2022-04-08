@@ -19,6 +19,13 @@ Welcome!
 
 # ASSIGNMENT A12: Prototype Your Puzzle
 
-[OmniSlide - Prototype](/a12/omnislide/game.html)
+[OmniSlide - Prototype 1](/a12/omnislide/game.html)
+
 [Survey](https://forms.gle/PvyKgYHsKyCsxGBA8)
+<br><br>
+
+# ASSIGNMENT A14: Refine Your Puzzle Prototype
+
+[OmniSlide - Prototype 2](/a14/omnislide/game.html)
+
 <br><br><br>
