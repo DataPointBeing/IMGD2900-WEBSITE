@@ -7,6 +7,8 @@ const level_files = [
     "1",
     "2",
     "3",
+    "4x4_DiagIntro",
+    "5x5_diagLvl2",
     "4",
     "5",
     "3Multi2Right",
