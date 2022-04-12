@@ -27,5 +27,9 @@ Welcome!
 # ASSIGNMENT A14: Refine Your Puzzle Prototype
 
 [OmniSlide - Prototype 2](/a14/omnislide/game.html)
+<br><br>
 
+# ASSIGNMENT A15: Polish and Post Your Puzzle
+
+[OmniSlide - Final](/a15/omnislide/game.html)
 <br><br><br>
