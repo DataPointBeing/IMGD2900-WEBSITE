@@ -32,4 +32,11 @@ Welcome!
 # ASSIGNMENT A15: Polish and Post Your Puzzle
 
 [OmniSlide - Final](/a15/omnislide/game.html)
+<br><br>
+
+# ASSIGNMENT A18: Prototype Your Restricted Game
+
+[Crypt Crawl - Prototype 1](/a18/crypt/game.html)
+
+[Survey](https://forms.gle/serauVFscCuC7ceP9)
 <br><br><br>
