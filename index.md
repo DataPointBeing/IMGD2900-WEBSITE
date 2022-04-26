@@ -39,4 +39,10 @@ Welcome!
 [Crypt Crawl - Prototype 1](/a18/crypt/game.html)
 
 [Survey](https://forms.gle/serauVFscCuC7ceP9)
+
+<br><br>
+
+# ASSIGNMENT A20: Refine Your Restricted Game
+
+[Crypt Crawl - Prototype 2](/a20/crypt/game.html)
 <br><br><br>
