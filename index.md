@@ -48,7 +48,7 @@ Welcome!
 
 <br><br>
 
-# ASSIGNMENT A18: Prototype Your Restricted Game
+# ASSIGNMENT A21: Further Refine Your Restricted Game
 
 [Crypt Crawl - Prototype 3](/a21/crypt/game.html)
 
