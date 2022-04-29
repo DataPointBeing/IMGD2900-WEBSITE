@@ -45,4 +45,13 @@ Welcome!
 # ASSIGNMENT A20: Refine Your Restricted Game
 
 [Crypt Crawl - Prototype 2](/a20/crypt/game.html)
+
+<br><br>
+
+# ASSIGNMENT A18: Prototype Your Restricted Game
+
+[Crypt Crawl - Prototype 3](/a21/crypt/game.html)
+
+[Survey](https://forms.gle/T9b9eXc4X2bw28BP7)
+
 <br><br><br>
