@@ -1,0 +1,328 @@
+class Player extends GB.Object {
+
+    move_delay = 4;
+
+    spacebar_down = false;
+
+    static #just_in_door = false;
+
+    static #room_name;
+    static #room_color;
+    static #timer_start;
+
+    static #object_label;
+
+    static #timer_active = true;
+    static #final_time;
+
+    static #key;
+
+    static #respawn_camera_position;
+    static #respawn_camera_dimensions;
+    static #respawn_position;
+    static #respawn_name;
+
+    ticks_since_last_move_h = this.move_delay;
+    ticks_since_last_move_v = this.move_delay;
+
+    static #sounds;
+
+    static #easter_egged;
+
+    static #win_message = "You win! Final time:";
+
+    constructor(x = 0, y = 0) {
+        super("hero");
+
+        GB.World.registerInterest(this, GB.InputEvent);
+        GB.World.registerInterest(this, GB.TickEvent);
+
+        Player.#room_name = null;
+        Player.#object_label = null;
+        Player.#room_color = PS.COLOR_WHITE;
+        Player.#timer_start = 0;
+        Player.#final_time = null;
+
+        Player.#key = null;
+
+        super.setPosition({x:x, y:y});
+        this.getCheckpoint();
+
+        Player.#sounds = PS.audioPlay("cave_loop", {path: "sounds/", fileTypes: ["wav"], volume: 0.05, loop: true})
+        Player.#easter_egged = false;
+    }
+
+    getCheckpoint() {
+        Player.#respawn_position = {x:this.getPositionX(), y:this.getPositionY()};
+
+        Player.#respawn_camera_position = GB.View.getPosition();
+        Player.#respawn_camera_dimensions = {x:GB.View.getWidth(), y:GB.View.getHeight()};
+        Player.#respawn_name = Player.#room_name;
+    }
+
+    kill() {
+        PS.audioPlay("fx_hoot", {volume: 0.2});
+
+        GB.View.setPosition(Player.#respawn_camera_position);
+        GB.View.setViewGrid(Player.#respawn_camera_dimensions.x, Player.#respawn_camera_dimensions.y);
+        Player.#room_name = Player.#respawn_name;
+
+        this.setPosition(Player.#respawn_position);
+    }
+
+    doEvent(event) {
+        switch(event.getType()) {
+            case GB.InputEvent.evType():
+                this.#doAction(event.getInput(), event.getIsDown());
+                break;
+            case GB.TickEvent.evType():
+                this.ticks_since_last_move_h++;
+                this.ticks_since_last_move_v++;
+                Player.#just_in_door = false;
+                Player.#updateStatus();
+                break;
+        }
+    }
+
+    static goIntoDoor() {
+        this.#just_in_door = true;
+    }
+
+    static exitDoor() {
+        this.#just_in_door = false;
+    }
+
+    static isJustInDoor() {
+        return Player.#just_in_door;
+    }
+
+    static setKey(k) {
+        this.#key = k;
+    }
+
+    static getKey(k) {
+        return this.#key;
+    }
+
+    static setRoomName(name, color) {
+        if(this.#room_name === null) {
+            Player.#timer_start = GB.Clock.getTicksElapsed();
+        }
+
+        Player.#room_name = name;
+        Player.#room_color = color? color : PS.COLOR_WHITE;
+    }
+
+    static getRoomName(name) {
+        return Player.#room_name;
+    }
+
+    static setLookingAt(text) {
+        this.#object_label = text;
+    }
+
+    static getLookingAt() {
+        return this.#object_label;
+    }
+
+    static timerInSeconds() {
+        const sec = parseInt(GB.Clock.ticksToSeconds(GB.Clock.getTicksElapsed() - Player.#timer_start));
+
+        const minutes = Math.floor(sec / 60);
+        let seconds = sec % 60;
+        if (seconds.toString().length < 2) {
+            seconds = '0' + seconds;
+        }
+        return minutes + ":" + seconds;
+    }
+
+    static finishTime() {
+        const sec = parseInt(GB.Clock.ticksToSeconds(Player.#final_time - Player.#timer_start));
+
+        const minutes = Math.floor(sec / 60);
+        let seconds = sec % 60;
+        if (seconds.toString().length < 2) {
+            seconds = '0' + seconds;
+        }
+        return minutes + ":" + seconds;
+    }
+
+    static finishTimeSeconds() {
+        return parseInt(GB.Clock.ticksToSeconds(Player.#final_time - Player.#timer_start));
+    }
+
+    static causeToBeEgged() {
+        this.#easter_egged = true;
+        PS.audioPlay("fx_wilhelm", {volume: 0.3});
+    }
+
+    static setTimerActive(set) {
+        this.#timer_active = set;
+        if(!set) {
+            this.#final_time = GB.Clock.getTicksElapsed();
+        }
+    }
+
+    static setWinMessage(win) {
+        Player.#win_message = win;
+    }
+
+    static #updateStatus() {
+        PS.statusColor(this.#room_color);
+
+        if(Player.#easter_egged) {
+            PS.statusText("");
+            return;
+        }
+
+        if(this.#object_label !== null) {
+            PS.statusText(this.#object_label);
+            return;
+        }
+
+        if(!this.#timer_active && this.#final_time !== null) {
+            PS.statusText(this.#win_message + " " + Player.finishTime());
+            return;
+        }
+
+        if(Player.#room_name === null) {
+            PS.statusText("WASD/arrows to move, Spacebar to interact");
+        }
+        else if(this.#timer_active) {
+            PS.statusText(Player.timerInSeconds() + " -- " + Player.#room_name);
+        }
+    }
+
+    populate(pos) {
+        PS.alpha(pos.x, pos.y, PS.ALPHA_OPAQUE);
+        PS.radius(pos.x, pos.y, 20);
+        //PS.data(pos.x, pos.y, 1);
+
+        if(Player.#key === null) {
+            PS.color(pos.x, pos.y, 0x206E81);
+        }
+        else {
+            PS.border(pos.x, pos.y, 6);
+            PS.borderAlpha(pos.x, pos.y, PS.ALPHA_OPAQUE);
+            PS.borderColor(pos.x, pos.y, 0x206E81);
+            PS.color(pos.x, pos.y, Player.#key);
+        }
+    }
+
+    dePopulate(pos) {
+        PS.color(pos.x, pos.y, PS.COLOR_WHITE);
+        PS.alpha(pos.x, pos.y, PS.ALPHA_TRANSPARENT);
+        PS.radius(pos.x, pos.y, 0);
+        PS.border(pos.x, pos.y, 0);
+        PS.borderAlpha(pos.x, pos.y, 0);
+        //PS.data(pos.x, pos.y, null);
+    }
+
+    #doAction(key, down){
+        switch(key){
+            case GB.InputType.UP:
+            case GB.InputType.DOWN:
+                this.#tryMove(key, true, down);
+                break;
+            case GB.InputType.LEFT:
+            case GB.InputType.RIGHT:
+                this.#tryMove(key, false, down);
+                break;
+            case GB.InputType.SPACE:
+                this.#tryInteract(down);
+                return;
+        }
+    }
+
+    #tryInteract(down) {
+        if(down && !this.spacebar_down) {
+            this.spacebar_down = true;
+            for(let x = -1; x < 2; x++){
+                for(let y = -1; y < 2; y++){
+                    if(Math.abs(x) === Math.abs(y)) {
+                        continue;
+                    }
+
+                    const w_pos = {x: super.getPosition().x + x, y: super.getPosition().y + y};
+                    const v_pos = GB.Utility.worldToView(w_pos);
+                    if(GB.View.inView(v_pos) && Math.abs(PS.data(v_pos.x, v_pos.y)) > 1) {
+                        const thing = GB.World.objectFromID(PS.data(v_pos.x, v_pos.y));
+                        if(thing !== null) {
+                            thing.doEvent(new InteractEvent());
+                        }
+                    }
+
+                    this.refresh();
+                }
+            }
+        }
+        else if(!down) {
+            this.spacebar_down = false;
+        }
+    }
+
+    #tryMove(dir, vert, down){
+        if(down && ((vert? this.ticks_since_last_move_v : this.ticks_since_last_move_h) >= this.move_delay)) {
+            let vec = {x:0, y:0};
+            switch (dir) {
+                case GB.InputType.UP:
+                    super.setPositionY(super.getPositionY() - 1);
+                    vec = {x:0,y:-1};
+                    break;
+                case GB.InputType.DOWN:
+                    super.setPositionY(super.getPositionY() + 1);
+                    vec = {x:0,y:1};
+                    break;
+                case GB.InputType.LEFT:
+                    super.setPositionX(super.getPositionX() - 1);
+                    vec = {x:-1,y:0};
+                    break;
+                case GB.InputType.RIGHT:
+                    super.setPositionX(super.getPositionX() + 1);
+                    vec = {x:1,y:0};
+                    break;
+            }
+
+            if(vert) {
+                this.ticks_since_last_move_v = 0;
+            }
+            else {
+                this.ticks_since_last_move_h = 0;
+            }
+
+            if(GB.View.getIsBounded()) {
+                GB.View.centerOn(super.getPosition());
+            }
+
+            const w_pos = {x: super.getPosition().x + vec.x, y: super.getPosition().y + vec.y};
+            const v_pos = GB.Utility.worldToView(w_pos);
+            if(GB.View.inView(v_pos) && Math.abs(PS.data(v_pos.x, v_pos.y)) > 1) {
+                const thing = GB.World.objectFromID(PS.data(v_pos.x, v_pos.y));
+                if(thing !== null) {
+                    thing.doEvent(new LookEvent());
+                    return;
+                }
+            }
+
+            for(let x = -1; x < 2; x++){
+                for(let y = -1; y < 2; y++){
+                    if(Math.abs(x) === Math.abs(y)) {
+                        continue;
+                    }
+
+                    const w_pos = {x: super.getPosition().x + x, y: super.getPosition().y + y};
+                    const v_pos = GB.Utility.worldToView(w_pos);
+                    if(GB.View.inView(v_pos) && Math.abs(PS.data(v_pos.x, v_pos.y)) > 1) {
+                        const thing = GB.World.objectFromID(PS.data(v_pos.x, v_pos.y));
+                        if(thing !== null) {
+                            thing.doEvent(new LookEvent());
+                            return;
+                        }
+                    }
+                }
+            }
+
+            Player.setLookingAt(null);
+        }
+    }
+}
